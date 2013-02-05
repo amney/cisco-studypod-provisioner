@@ -1,0 +1,115 @@
+{#  {% load dajaxice_templatetags %} #}
+{% load compress %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %} - Csco.SRL</title>
+
+    {% compress js %}
+    {# {% dajaxice_js_import %} #}
+    <script type="text/javascript" src="{{ STATIC_URL }}jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}dajax/jquery.dajax.core.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}bootstrap/js/bootstrap-datepicker.js"></script>
+    {% endcompress %}
+
+
+    {% compress css %}
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}bootstrap/css/datepicker.css" rel="stylesheet">
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+    {% endcompress %}
+
+    <script type="text/javascript">
+    function callback(data){
+        alert(data.message);
+    }
+    function calculate(){
+        Dajaxice.ajax_app.multiply(Dajax.process,{'a':$('#a').val(),'b':$('#b').val()})
+    }
+    </script>
+    {% block extra_headers %}{% endblock %}
+    {% load bootstrap_toolkit %}
+</head>
+<body>
+
+{% csrf_token %}
+
+<div class="navbar navbar-fixed-top ">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="#">Csco.SRL</a>
+            <div class="nav-collapse collapse">
+                <p class="navbar-text pull-right">
+                    {% if user.username %}
+                    Logged in as <a href="#" class="navbar-link">{{ user.username }}</a> <a href="{% url logout %}">(Logout)</a>
+                    {% else %}
+                    Hi there, Guest! Would you like <a href="{% url login %}">Login</a> or <a href="{% url logout %}">Register?</a>
+                    {% endif %}
+                </p>
+                <ul class="nav">
+                    <li class="active"><a href="{% url home-view %}">Home</a></li>
+                    <li><a href="{% url about %}">About</a></li>
+                    <li><a href="{% url contact %}">Contact</a></li>
+                    <li><a href="{% url book %}">Bookings</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="well sidebar-nav">
+                <ul class="nav nav-list">
+                    <li class="nav-header">Tools</li>
+                    <li><a href="{% url book %}">Make a Booking</a></li>
+                    <li><a href="{% url get-config %}">Configuration Demos</a></li>
+                    <li class="nav-header">My Profile</li>
+                    <li><a href="{% url my_bookings %}">My Bookings</a></li>
+                    <li><a href="#">My Details</a></li>
+                    <li class="nav-header">Administrative Tools</li>
+                    <li><a href="/admin">Admin Site</a></li>
+                    <li><a href="{% url list_bookings %}">All Bookings</a></li>
+                    <li><a href="#">Power Management</a></li>
+                    <li><a href="{% url list_pods %}">Available Devices</a></li>
+                    <li><a href="#">Logs</a></li>
+                </ul>
+            </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            {% block content %}
+            {% endblock %}
+        </div><!--/span-->
+    </div><!--/row-->
+
+    <hr>
+
+    <footer>
+        <p>&copy; Tim Garner 2012</p>
+    </footer>
+
+</div><!--/.fluid-container-->
+
+
+
+
+</body>
+</html>

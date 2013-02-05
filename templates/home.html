@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Welcome
+{% endblock %}
+
+{% block content %}
+    <div class="hero-unit">
+        <h1>Csco.SRL</h1>
+        <p style="margin-top: 30px;">Welcome to the Cisco: Study, Revise, Learn - A new platform for engaging with, and, mastering Cisco qualifications</p>
+        <p style="margin-top: 30px;"><a class="btn btn-primary btn-large" href="{% url about %}">Learn more &raquo;</a></p>
+
+                {% comment %}<p>
+                    <br />
+                    <input onclick="Dajaxice.ajax_app.sayhello(callback)" type="button" value="Hello" class="btn"/>
+                    <br />
+                    <input type="text" value="5" id="a"> x
+                    <input type="text" value="6" id="b"> =
+                    <input type="text" value="" id="result"><br>
+                    <input type="button" value="Multiply!" onclick="calculate();" class="btn btn-primary">
+                </p>
+                {% endcomment %}
+    </div>
+    <div class="row-fluid">
+        <div class="span4">
+            <h2>Rack Rentals</h2>
+            <p>Let us worry about the cost of equipment, racking, stacking, and cabling. All you need to do is book a slot and go!</p>
+            <p><a class="btn btn-info" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+            <h2>Prefab Configurations</h2>
+            <p>We know all the major study guides, and provide simple to use base configurations to get you up and running quicker than ever.</p>
+            <p><a class="btn btn-info" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+            <h2>Stay Notified</h2>
+            <p>Never miss a booking. Let us send you notifications about your time slots, and if you like, we can suggest some too.</p>
+            <p><a class="btn btn-info" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+    </div><!--/row-->
+    <div class="row-fluid">
+        <div class="span4">
+            <h2>CCIE</h2>
+
+            <p>We support the Cisco 360 and INE tutorial books, plus the official certifications guide.</p>
+            <p><a class="btn btn-info" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+            <h2>CCNP</h2>
+            <p>Be it ROUTE, SWITCH or TSHOOT our pods are ready to go 24/7 for your educational needs.</p>
+            <p><a class="btn btn-info" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+        <div class="span4">
+            <h2>CCNA</h2>
+            <p>New to Cisco Certifications? Don't want to spend the cash on equipment? Look no further, get your hands on some real equipment
+                while enjoying all the benefits of our ready-to-go solution.</p>
+            <p><a class="btn btn-info" href="#">View details &raquo;</a></p>
+        </div><!--/span-->
+    </div><!--/row-->
+{% endblock %}

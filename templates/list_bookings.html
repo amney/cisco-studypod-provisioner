@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    All Bookings
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>All Bookings</h1>
+
+        <h3>See where your slots at</h3>
+        <p>Upcoming bookings:</p>
+        <ul>
+            {% for booking in future_bookings %}
+                <li>{{ booking }}</li>
+            {% empty %}
+                <p>It seems like you don't have any  future bookings, why not <a href="{% url book %}">make one?</a></p>
+            {% endfor %}
+        </ul>
+
+        <p>Past bookings (for reference):</p>
+        <ul>
+            {% for booking in past_bookings %}
+                <li>{{ booking }}</li>
+            {% empty %}
+                <p>It seems like you don't have any past bookings, why not <a href="{% url book %}">make one?</a></p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

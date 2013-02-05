@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Looks like we've got a pod available!
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>Looks like we've got a pod available!</h1>
+
+        <h3>Select the Pod you would like to use</h3>
+        {% if pods %}
+        <p>
+        <em>
+            We've ranked them by how many stored configurations you have on them.
+        </em>
+        </p>
+
+        <ul>
+            {% for pod in pods %}
+                <hr>
+                <li>{{ pod.description }}</li>
+                    <ul>
+                    {% for config in pod.my_configs %}
+                        <li>{{ config.description }}, created at {{ config.create_datetime }}</li>
+                    {% endfor %}
+                    </ul>
+                <br>
+                <a class="btn btn-success" href="{% url confirm_booking pod.pk %}">Select Pod</a>
+                <br>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+    </div>
+{% endblock %}

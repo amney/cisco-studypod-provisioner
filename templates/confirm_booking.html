@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Let's just confirm
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>Almost Done</h1>
+
+        <h3>Just check the details, and I can finalise that booking for you.</h3>
+
+        <p>
+            Pod: {{ pod }}<br>
+            Date: {{ d }}<br>
+            Start Time: {{ t1 }}<br>
+            End Time: {{ t2 }}<br>
+            <br>
+            <br>
+            {% load crispy_forms_tags %}
+            {% crispy config_set_form %}
+        </p>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Get Config
+{% endblock %}
+
+{% block content %}
+    <script type="text/javascript">
+        function get_config(){
+            $("#get_config").button('loading');
+            Dajaxice.ajax_app.get_config(Dajax.process, {'ip':$('#ip').val()});
+        }
+        function set_config(){
+            $("#set_config").button('loading');
+            Dajaxice.ajax_app.set_config(Dajax.process, {'ip':$('#ip').val(),'config':$('#result').val()});
+        }
+        function set_config_deffered() {
+            $("#set_config").button('loading');
+            Dajaxice.ajax_app.set_config_deffered(Dajax.process, {'ip':$('#ip').val(), 'config':$('#result').val()});
+        }
+        function stopLoading(){
+            $("#get_config").button('reset');
+            $("#set_config").button('reset');
+        }
+    </script>
+
+    <div class="well">
+        <h1>Configuration Manipulation Demos</h1>
+        <p>
+            <br />
+            <input type="text" id="ip" />
+            <button onclick="get_config()" type="button" id="get_config" class="btn btn-primary" data-loading-text="Loading...">Get Config</button>
+            <button onclick="set_config()" type="button" id="set_config" class="btn btn-primary" data-loading-text="Loading...">Set Config</button>
+            <button onclick="set_config_deffered()" type="button" id="set_config_deffered" class="btn btn-primary" data-loading-text="Loading...">Set Config Deffered</button>
+            <br /><br><br>
+            <textarea rows="20" cols="100" style="width: 100%;" id="result"></textarea>
+        </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}
+    All Pods
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>All Available Pods</h1>
+        <h3>Checkout this list of available pods</h3>
+
+        <ul>
+            {% for pod in pods %}
+                <li>
+                <strong>{{ pod.description }}</strong>
+                <br><br>
+                Available Study Options:
+                <ul>
+                {% for study_type in pod.study_types.all %}
+                    <li>
+                    {{ study_type.name }}
+                    <br>
+                    {{ study_type.description }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                <br><br>
+                </li>
+
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

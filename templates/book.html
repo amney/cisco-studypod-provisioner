@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Booking
+{% endblock %}
+
+{% block extra_headers %}
+<script type="text/javascript">
+    $(function () {
+        $('.dateinput').datepicker({format:'dd/mm/yyyy'}).on('changeDate', function (ev) {
+            /*if (ev.date.valueOf() < startDate.valueOf()) {
+                alert('ayoooooooo');
+            }*/
+            console.log(ev.date.valueOf());
+        });
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>Want to book some time?</h1>
+        <h3>Fill out this simple form and we'll get you going!</h3>
+
+        <p>
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+
+
+        </p>
+    </div>
+{% endblock %}
