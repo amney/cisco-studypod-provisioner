@@ -52,8 +52,8 @@ def book(request):
                 pods = Pod.objects.filter(
                     study_types__id__exact=study_type).exclude(
                     booking__date=d,
-                    booking__start_time__lt=t2,
-                    booking__end_time__gt=t1, )
+                    booking__start_time__lte=t2,
+                    booking__end_time__gte=t1, )
 
                 for pod in pods:
                     pod.my_configs = pod.configset_set.filter(user=request.user.username)

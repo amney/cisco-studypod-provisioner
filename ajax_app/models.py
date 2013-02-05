@@ -100,6 +100,10 @@ class Config(models.Model):
     create_datetime = models.DateTimeField(auto_now_add=True)
     modify_datetime = models.DateTimeField(auto_now=True)
 
+    def __unicode__(self):
+        return "Config for: " + self.device.__unicode__() + " in Config set " + self.config_set.__unicode__()
+
+
 class Booking(models.Model):
     TIME_CHOICES = (
         (time(1, 00), '01:00'),
