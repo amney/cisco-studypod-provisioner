@@ -8,7 +8,7 @@ def get_config(device_ip):
 
 def set_config(device_ip, config):
     logger.info('Config set for device: ' + str(device_ip))
-    return 'Set Config'
+    return True
 
 def get_snmp(oid, device):
     return 'Got SNMP'

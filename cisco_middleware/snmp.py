@@ -4,7 +4,7 @@ from time import sleep
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 from pysnmp.proto import rfc1902
 
-#tftp_server = socket.gethostbyname(socket.gethostname())
+tftp_server = '10.10.10.150'
 
 def get_config(device_ip):
     #A good reference for tftp config is: http://ccie20728.wordpress.com/2008/05/20/get-the-cisco-configuration-over-snmp/
@@ -18,7 +18,7 @@ def get_config(device_ip):
     #Set address of tftp server. Passing address=True lets try_snmp know it's an ip
     set_snmp('9.9.96.1.1.1.1.5.111',tftp_server, device_ip, address=True)
     #Set filename to save to - this needs to exist and be writable
-    set_snmp('9.9.96.1.1.1.1.6.111', 'test.txt', device_ip)
+    set_snmp('9.9.96.1.1.1.1.6.111', 'receive.txt', device_ip)
     #Start the transfer
     set_snmp('9.9.96.1.1.1.1.14.111', 1, device_ip)
 
@@ -30,14 +30,14 @@ def get_config(device_ip):
     set_snmp('9.9.96.1.1.1.1.14.111',6, device_ip)
 
     #Open the downloaded config and read into a string
-    linestring = open('/Users/tim/Downloads/snmp/test.txt', 'r').read()
+    linestring = open('/Users/tigarner/PycharmProjects/ajax_prj/tftp/receive.txt', 'r').read()
     return linestring
 
 def set_config(device_ip, config):
     #A good reference for tftp config is: http://ccie20728.wordpress.com/2008/05/20/get-the-cisco-configuration-over-snmp/
 
     #Get the config into the text file
-    open('/Users/tim/Downloads/snmp/test_write.txt', 'w').write(config)
+    open('/Users/tigarner/PycharmProjects/ajax_prj/send.txt', 'w').write(config)
 
 
     #Set copy protocol to TFTP
@@ -51,7 +51,7 @@ def set_config(device_ip, config):
     set_snmp('9.9.96.1.1.1.1.5.111',tftp_server, device_ip, address=True)    #Start the transfer
 
     #Set filename to save to - this needs to exist and be writable
-    set_snmp('9.9.96.1.1.1.1.6.111', 'test_write.txt', device_ip)
+    set_snmp('9.9.96.1.1.1.1.6.111', 'send.txt', device_ip)
 
 
     #Start the transfer

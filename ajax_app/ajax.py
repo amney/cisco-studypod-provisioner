@@ -2,7 +2,7 @@ __author__ = 'tim'
 from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from dajax.core import Dajax
-from cisco_middleware import snmp
+from cisco_middleware import config as snmp_config
 from datetime import datetime, timedelta
 from apscheduler.scheduler import Scheduler
 
@@ -24,7 +24,7 @@ def multiply(request, a, b):
 @dajaxice_register
 def get_config(request, ip):
     dajax = Dajax()
-    result = snmp.get_config(ip)
+    result = snmp_config.get_config(ip)
     dajax.assign('#result', 'innerHTML',result)
     dajax.script('stopLoading();')
     return dajax.json()
@@ -32,7 +32,7 @@ def get_config(request, ip):
 @dajaxice_register
 def set_config(request, ip, config):
     dajax = Dajax()
-    result = snmp.set_config(ip, config)
+    result = snmp_config.set_config(ip, config)
     dajax.alert("Config set!")
     dajax.script('stopLoading();')
     return dajax.json()
@@ -42,8 +42,8 @@ def set_config_deffered(request, ip, config):
     dajax = Dajax()
     sched = Scheduler()
     sched.start()
-    job = sched.add_date_job(snmp.set_config, datetime.now() + timedelta(seconds=15),[ip,config])
-    dajax.alert("Config set deffered for 15 seconds")
+    job = sched.add_date_job(snmp_config.set_config, datetime.now() + timedelta(seconds=5),[ip,config])
+    dajax.alert("Config set deferred for 5 seconds")
     dajax.script('stopLoading();')
     return dajax.json()
 

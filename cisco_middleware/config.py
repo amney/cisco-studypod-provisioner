@@ -19,3 +19,10 @@ def configure_device(config):
 def configure_device_group(config_set):
     for config in config_set.config_set.all():
         configure_device(config)
+
+
+def get_config(ip):
+    return snmp_backend.get_config(ip)
+
+def set_config(ip, config):
+    return snmp_backend.set_config(ip, config)

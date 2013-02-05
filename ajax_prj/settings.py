@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/tim/PycharmProjects/ajax_prj/db/ajax_app.db',                      # Or path to database file if using sqlite3.
+        'NAME': '/Users/tigarner/PycharmProjects/ajax_prj/db/ajax_app.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -66,7 +66,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    ("/Users/tim/PycharmProjects/ajax_prj/static",)
+    ("/Users/tigarner/PycharmProjects/ajax_prj/static",)
 )
 
 # List of finder classes that know how to find static files in
@@ -103,7 +103,7 @@ ROOT_URLCONF = 'ajax_prj.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'ajax_prj.wsgi.application'
 
-TEMPLATE_DIRS = ('/Users/tim/PycharmProjects/ajax_prj/templates',)
+TEMPLATE_DIRS = ('/Users/tigarner/PycharmProjects/ajax_prj/templates',)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -172,7 +172,7 @@ LOGGING = {
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': "/Users/tim/PycharmProjects/ajax_prj/logs/logfile.txt",
+            'filename': "/Users/tigarner/PycharmProjects/ajax_prj/logs/logfile.txt",
             'maxBytes': 50000,
             'backupCount': 2,
             'formatter': 'standard',
@@ -204,7 +204,7 @@ LOGGING = {
             'level': 'DEBUG',
         },
         'dajaxice': {
-            'handlers': ['logfile'],
+            'handlers': ['null'],
             'level': 'DEBUG',
         },
 
