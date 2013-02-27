@@ -2,8 +2,8 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 import datetime
 from django import forms
-from ajax_app.models import  Pod
-from models import Booking, StudyType
+from ajax_app.models import Pod
+from models import Booking, StudyType, ConfigSet
 __author__ = 'tim'
 
 
@@ -45,3 +45,17 @@ class ConfirmForm(forms.Form):
         self.fields['config_set'].choices = Pod.objects.get(pk=pod_id).configset_set.filter(user=username).values_list('id','description')
 
     config_set = forms.ChoiceField(label='One last thing, please choose which configuration you would like us to load onto the pod?', required=True)
+
+class ConfigSetForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = ''
+        self.helper.add_input(Submit('submit', 'Collect Config'))
+        super(ConfigSetForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = ConfigSet
+        exclude = ('blank', 'user', 'pod')
+
+

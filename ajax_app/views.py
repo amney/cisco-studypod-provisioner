@@ -1,12 +1,14 @@
 # Create your views here.
 
 from django.contrib.auth.decorators import login_required
-from forms import BookForm, ConfirmForm
+from forms import BookForm, ConfirmForm, ConfigSetForm
 from django.shortcuts import HttpResponse, render_to_response
 from django.template import RequestContext
-from models import Pod, Booking, ConfigSet
+from models import Pod, Booking, ConfigSet, Config
+from cisco_middleware.config import get_config
 from datetime import datetime
 import operator
+from django.db.models import Q
 
 import logging
 # Get an instance of a logger
@@ -49,11 +51,11 @@ def book(request):
             request.session['end_time'] = t2
 
             try:
-                pods = Pod.objects.filter(
-                    study_types__id__exact=study_type).exclude(
-                    booking__date=d,
-                    booking__start_time__lt=t2,
-                    booking__end_time__gt=t1, )
+                pods = Pod.objects.filter(study_types__id__exact=study_type).exclude(
+                                            booking__date__exact=d,
+                                            booking__start_time__lt=t2,
+                                            booking__end_time__gt=t1,
+                                         )
 
                 for pod in pods:
                     pod.my_configs = pod.configset_set.filter(user=request.user.username)
@@ -100,3 +102,22 @@ def confirm_booking(request, pod_id):
 
     return render_to_response("confirm_booking.html", {'pod': pod, 'config_set_form': config_set_form, 'd' : d, 't1': t1, 't2':t2},
                               context_instance=RequestContext(request))
+
+@login_required
+def collect_config_set(request, pod_id):
+    c = ConfigSet(blank=False, user='Tim', pod=Pod.objects.get(pk=pod_id))
+
+    if request.method == 'POST':
+        form = ConfigSetForm(request.POST, instance=c)
+        if form.is_valid():
+            pod = Pod.objects.get(pk=pod_id)
+            config_set = form.save()
+            for dev in pod.device_set.all():
+                Config.objects.create(configuration=get_config(dev.telnet.ipv4), device=dev,
+                                      config_set=config_set)
+
+            return HttpResponse("Config Set Saved!")
+    else:
+        form = ConfigSetForm(instance=c)
+
+    return render_to_response("collect_config_set.html", {'form': form}, context_instance=RequestContext(request))

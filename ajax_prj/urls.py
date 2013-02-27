@@ -4,7 +4,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
 from django.contrib import admin
 from django.conf import settings
-from ajax_app.jobs import configure_pods
+from ajax_app.jobs import configure_pods, save_configurations
 from apscheduler.scheduler import Scheduler
 import logging
 # Get an instance of a logger
@@ -15,7 +15,8 @@ logger = logging.getLogger(__name__)
 sched = Scheduler()
 sched.start()
 logger.info("Starting configuration scheduled job")
-sched.add_interval_job(configure_pods, minutes=1)
+#sched.add_interval_job(configure_pods, minutes=1)
+#sched.add_interval_job(save_configurations, minutes=1)
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -32,6 +33,7 @@ urlpatterns = patterns('',
     url(r'^config/$',TemplateView.as_view(template_name="get_config.html"), name="get-config"),
     url(r'^book/$','ajax_app.views.book', name="book"),
     url(r'^book/confirm_booking/(?P<pod_id>\d)/$', 'ajax_app.views.confirm_booking', name="confirm_booking"),
+    url(r'^config/save/(?P<pod_id>\d)/$', 'ajax_app.views.collect_config_set', name="collect_config_set"),
     url(r'^maintenance/list_pods/$', 'ajax_app.views.list_pods', name="list_pods"),
     url(r'^maintenance/list_bookings/$', 'ajax_app.views.list_bookings', name="list_bookings"),
     url(r'^user/my_bookings/$', 'ajax_app.views.my_bookings', name="my_bookings"),

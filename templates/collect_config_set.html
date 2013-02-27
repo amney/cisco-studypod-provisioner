@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Collect Config Set
+{% endblock %}
+
+{% block extra_headers %}
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>Let's Get Those Configs</h1>
+        <h3>If you like provide a few details so you can help remember this config set.</h3>
+
+        <p>
+            {% load crispy_forms_tags %}
+            {% crispy form %}
+        </p>
+    </div>
+{% endblock %}

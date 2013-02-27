@@ -4,7 +4,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def get_config(device_ip):
-    return 'Got config'
+    return 'Got config for ' + str(device_ip)
 
 def set_config(device_ip, config):
     logger.info('Config set for device: ' + str(device_ip))

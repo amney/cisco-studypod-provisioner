@@ -203,6 +203,10 @@ LOGGING = {
             'handlers': ['console', 'logfile'],
             'level': 'DEBUG',
         },
+        'apscheduler': {
+            'handlers': ['console', 'logfile'],
+            'level': 'DEBUG',
+        },
         'dajaxice': {
             'handlers': ['null'],
             'level': 'DEBUG',
