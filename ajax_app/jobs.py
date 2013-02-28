@@ -1,8 +1,10 @@
 __author__ = 'tim'
 from datetime import datetime, timedelta
+import logging
+
 from models import Booking, ConfigSet, Config
 from cisco_middleware.config import configure_device_group, get_config
-import logging
+
 
 logger = logging.getLogger(__name__)
 

@@ -1,0 +1,629 @@
+[
+    {
+        "pk": 3,
+        "model": "ajax_app.devicetype",
+        "fields": {
+            "model": "1801",
+            "ram": 128,
+            "type": "RT"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.devicetype",
+        "fields": {
+            "model": "2811",
+            "ram": 256,
+            "type": "RT"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.devicetype",
+        "fields": {
+            "model": "3560",
+            "ram": 128,
+            "type": "SW"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.connection",
+        "fields": {
+            "ipv4": "10.10.10.1",
+            "port": 22
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.connection",
+        "fields": {
+            "ipv4": "10.10.10.1",
+            "port": 23
+        }
+    },
+    {
+        "pk": 5,
+        "model": "ajax_app.connection",
+        "fields": {
+            "ipv4": "10.10.10.150",
+            "port": 23
+        }
+    },
+    {
+        "pk": 3,
+        "model": "ajax_app.connection",
+        "fields": {
+            "ipv4": "10.10.10.255",
+            "port": 80
+        }
+    },
+    {
+        "pk": 6,
+        "model": "ajax_app.connection",
+        "fields": {
+            "ipv4": "172.16.1.1",
+            "port": 23
+        }
+    },
+    {
+        "pk": 4,
+        "model": "ajax_app.connection",
+        "fields": {
+            "ipv4": "192.168.1.1",
+            "port": 23
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.location",
+        "fields": {
+            "rack": 1,
+            "row": "A"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.location",
+        "fields": {
+            "rack": 16,
+            "row": "B"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "ajax_app.location",
+        "fields": {
+            "rack": 18,
+            "row": "C"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.studytype",
+        "fields": {
+            "name": "CCNP",
+            "description": "A mid-level Cisco qualifaction"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.studytype",
+        "fields": {
+            "name": "CCIE",
+            "description": "The top level Cisco qualification"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "ajax_app.studytype",
+        "fields": {
+            "name": "CCNA",
+            "description": "The low level Cisco qualifaction"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.pod",
+        "fields": {
+            "description": "Large CCIE Pod",
+            "study_types": [1, 2, 3]
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.pod",
+        "fields": {
+            "description": "Medium CCNP Pod",
+            "study_types": [1, 3]
+        }
+    },
+    {
+        "pk": 3,
+        "model": "ajax_app.pod",
+        "fields": {
+            "description": "Small CCNA Pod",
+            "study_types": [3]
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.device",
+        "fields": {
+            "telnet": 1,
+            "devicetype": 1,
+            "location": 1,
+            "date_created": "2013-01-24T20:55:39Z",
+            "serial_number": "0250105",
+            "serial": 3,
+            "pod": 1,
+            "ssh": 2
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.device",
+        "fields": {
+            "telnet": 4,
+            "devicetype": 2,
+            "location": 1,
+            "date_created": "2013-01-28T11:39:35Z",
+            "serial_number": "0505010",
+            "serial": null,
+            "pod": 1,
+            "ssh": null
+        }
+    },
+    {
+        "pk": 3,
+        "model": "ajax_app.device",
+        "fields": {
+            "telnet": 5,
+            "devicetype": 2,
+            "location": 2,
+            "date_created": "2013-01-28T11:55:52Z",
+            "serial_number": "5031051",
+            "serial": null,
+            "pod": 2,
+            "ssh": null
+        }
+    },
+    {
+        "pk": 4,
+        "model": "ajax_app.device",
+        "fields": {
+            "telnet": 6,
+            "devicetype": 3,
+            "location": 3,
+            "date_created": "2013-01-28T21:36:46.683Z",
+            "serial_number": "01115251",
+            "serial": null,
+            "pod": 3,
+            "ssh": null
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "A config set owned by Roy",
+            "study_type": 2,
+            "create_datetime": "2013-01-30T14:02:00.542Z",
+            "modify_datetime": "2013-02-05T15:01:07.720Z",
+            "user": "roy",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "CCIE Config for Large Pod",
+            "study_type": 2,
+            "create_datetime": "2013-01-30T20:42:12.047Z",
+            "modify_datetime": "2013-02-05T15:00:42.326Z",
+            "user": "tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "CCNP Config for Large Pod",
+            "study_type": 1,
+            "create_datetime": "2013-01-31T12:31:32.714Z",
+            "modify_datetime": "2013-02-05T15:00:28.897Z",
+            "user": "tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 4,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "CCNP Config for Medium Pod",
+            "study_type": 1,
+            "create_datetime": "2013-01-31T12:31:54.481Z",
+            "modify_datetime": "2013-02-05T15:01:17.903Z",
+            "user": "tim",
+            "blank": false,
+            "pod": 2
+        }
+    },
+    {
+        "pk": 5,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Test config set",
+            "study_type": 3,
+            "create_datetime": "2013-02-11T14:39:19.659Z",
+            "modify_datetime": "2013-02-11T14:39:19.659Z",
+            "user": "Tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 6,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "I really feel that I'm loosing my best friend, I can't believe this could be the end. it looks as",
+            "study_type": 1,
+            "create_datetime": "2013-02-11T14:42:28.277Z",
+            "modify_datetime": "2013-02-11T14:42:28.277Z",
+            "user": "Tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 7,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "config for set 2",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T14:49:03.831Z",
+            "modify_datetime": "2013-02-11T14:49:03.831Z",
+            "user": "Tim",
+            "blank": false,
+            "pod": 2
+        }
+    },
+    {
+        "pk": 8,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Autosaved Config at 2013-02-11 15:10:15.728641",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T15:10:15.728Z",
+            "modify_datetime": "2013-02-11T15:10:15.728Z",
+            "user": "Tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 9,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Autosaved Config at 2013-02-11 15:11:15.717958",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T15:11:15.718Z",
+            "modify_datetime": "2013-02-11T15:11:15.718Z",
+            "user": "Tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 10,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Autosaved Config at 2013-02-11 15:12:59.131458",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T15:12:59.131Z",
+            "modify_datetime": "2013-02-11T15:12:59.131Z",
+            "user": "Tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 11,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Autosaved Config at 2013-02-11 15:14:23.505908",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T15:14:23.506Z",
+            "modify_datetime": "2013-02-11T15:14:23.506Z",
+            "user": "tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 12,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Autosaved Config at 2013-02-11 15:15:23.506269",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T15:15:23.506Z",
+            "modify_datetime": "2013-02-11T15:15:23.506Z",
+            "user": "tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 13,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Autosaved Config at 2013-02-11 15:16:23.499912",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T15:16:23.500Z",
+            "modify_datetime": "2013-02-11T15:16:23.500Z",
+            "user": "tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 14,
+        "model": "ajax_app.configset",
+        "fields": {
+            "description": "Autosaved Config at 2013-02-11 15:17:23.498350",
+            "study_type": 2,
+            "create_datetime": "2013-02-11T15:17:23.498Z",
+            "modify_datetime": "2013-02-11T15:17:23.498Z",
+            "user": "tim",
+            "blank": false,
+            "pod": 1
+        }
+    },
+    {
+        "pk": 1,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 1,
+            "configuration": "A config, for config set owned by Roy",
+            "modify_datetime": "2013-02-05T15:02:03.325Z",
+            "create_datetime": "2013-01-30T14:02:22.820Z"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 2,
+            "configuration": "Placeholder Text",
+            "modify_datetime": "2013-02-05T15:01:49.211Z",
+            "create_datetime": "2013-01-30T20:42:35.759Z"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 4,
+            "config_set": 3,
+            "configuration": "Part 1 Config For CCNP Config for Large Pod",
+            "modify_datetime": "2013-02-05T15:01:39.473Z",
+            "create_datetime": "2013-02-01T11:34:53.543Z"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 5,
+            "configuration": "Config",
+            "modify_datetime": "2013-02-11T14:39:19.662Z",
+            "create_datetime": "2013-02-11T14:39:19.662Z"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 5,
+            "configuration": "Config",
+            "modify_datetime": "2013-02-11T14:39:19.663Z",
+            "create_datetime": "2013-02-11T14:39:19.663Z"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 6,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T14:42:28.284Z",
+            "create_datetime": "2013-02-11T14:42:28.284Z"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 6,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T14:42:28.287Z",
+            "create_datetime": "2013-02-11T14:42:28.287Z"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 3,
+            "config_set": 7,
+            "configuration": "Got config for 10.10.10.150",
+            "modify_datetime": "2013-02-11T14:49:03.835Z",
+            "create_datetime": "2013-02-11T14:49:03.835Z"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 8,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T15:10:15.734Z",
+            "create_datetime": "2013-02-11T15:10:15.734Z"
+        }
+    },
+    {
+        "pk": 10,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 8,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T15:10:15.736Z",
+            "create_datetime": "2013-02-11T15:10:15.736Z"
+        }
+    },
+    {
+        "pk": 11,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 9,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T15:11:15.728Z",
+            "create_datetime": "2013-02-11T15:11:15.728Z"
+        }
+    },
+    {
+        "pk": 12,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 9,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T15:11:15.730Z",
+            "create_datetime": "2013-02-11T15:11:15.730Z"
+        }
+    },
+    {
+        "pk": 13,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 10,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T15:12:59.135Z",
+            "create_datetime": "2013-02-11T15:12:59.135Z"
+        }
+    },
+    {
+        "pk": 14,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 10,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T15:12:59.137Z",
+            "create_datetime": "2013-02-11T15:12:59.137Z"
+        }
+    },
+    {
+        "pk": 15,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 11,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T15:14:23.516Z",
+            "create_datetime": "2013-02-11T15:14:23.516Z"
+        }
+    },
+    {
+        "pk": 16,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 11,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T15:14:23.519Z",
+            "create_datetime": "2013-02-11T15:14:23.519Z"
+        }
+    },
+    {
+        "pk": 17,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 12,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T15:15:23.516Z",
+            "create_datetime": "2013-02-11T15:15:23.516Z"
+        }
+    },
+    {
+        "pk": 18,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 12,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T15:15:23.519Z",
+            "create_datetime": "2013-02-11T15:15:23.519Z"
+        }
+    },
+    {
+        "pk": 19,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 13,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T15:16:23.510Z",
+            "create_datetime": "2013-02-11T15:16:23.510Z"
+        }
+    },
+    {
+        "pk": 20,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 13,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T15:16:23.512Z",
+            "create_datetime": "2013-02-11T15:16:23.512Z"
+        }
+    },
+    {
+        "pk": 21,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 1,
+            "config_set": 14,
+            "configuration": "Got config for 10.10.10.1",
+            "modify_datetime": "2013-02-11T15:17:23.503Z",
+            "create_datetime": "2013-02-11T15:17:23.503Z"
+        }
+    },
+    {
+        "pk": 22,
+        "model": "ajax_app.config",
+        "fields": {
+            "device": 2,
+            "config_set": 14,
+            "configuration": "Got config for 192.168.1.1",
+            "modify_datetime": "2013-02-11T15:17:23.505Z",
+            "create_datetime": "2013-02-11T15:17:23.505Z"
+        }
+    }
+]

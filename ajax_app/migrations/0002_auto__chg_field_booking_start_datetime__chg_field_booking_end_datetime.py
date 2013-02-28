@@ -1,31 +1,36 @@
 # -*- coding: utf-8 -*-
+import datetime
 from south.db import db
 from south.v2 import SchemaMigration
+from django.db import models
 
 
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Booking.config_set'
-        db.add_column('ajax_app_booking', 'config_set',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=1, to=orm['ajax_app.ConfigSet']),
-                      keep_default=False)
 
+        # Changing field 'Booking.start_datetime'
+        db.alter_column('ajax_app_booking', 'start_datetime', self.gf('django.db.models.fields.DateTimeField')())
+
+        # Changing field 'Booking.end_datetime'
+        db.alter_column('ajax_app_booking', 'end_datetime', self.gf('django.db.models.fields.DateTimeField')())
 
     def backwards(self, orm):
-        # Deleting field 'Booking.config_set'
-        db.delete_column('ajax_app_booking', 'config_set_id')
 
+        # Changing field 'Booking.start_datetime'
+        db.alter_column('ajax_app_booking', 'start_datetime', self.gf('django.db.models.fields.TimeField')())
+
+        # Changing field 'Booking.end_datetime'
+        db.alter_column('ajax_app_booking', 'end_datetime', self.gf('django.db.models.fields.TimeField')())
 
     models = {
         'ajax_app.booking': {
-            'Meta': {'unique_together': "(('pod', 'date', 'start_time', 'end_time'),)", 'object_name': 'Booking'},
+            'Meta': {'unique_together': "(('pod', 'start_datetime', 'end_datetime'),)", 'object_name': 'Booking'},
             'config_set': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['ajax_app.ConfigSet']"}),
-            'date': ('django.db.models.fields.DateField', [], {'default': 'datetime.datetime(2013, 1, 30, 0, 0)'}),
-            'end_time': ('django.db.models.fields.TimeField', [], {'default': 'datetime.time(0, 0)'}),
+            'end_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'pod': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['ajax_app.Pod']"}),
-            'start_time': ('django.db.models.fields.TimeField', [], {'default': 'datetime.time(0, 0)'}),
+            'start_datetime': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
             'user': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         'ajax_app.config': {
@@ -44,6 +49,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'modify_datetime': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'pod': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['ajax_app.Pod']"}),
             'study_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['ajax_app.StudyType']"}),
             'user': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },

@@ -15,6 +15,7 @@ class SimpleTest(TestCase):
         """
         self.assertEqual(1 + 1, 2)
 
+
 class NewTest(TestCase):
     def test_basic_test(self):
-        self.assertEqual(1,1)
+        self.assertEqual(1, 1)

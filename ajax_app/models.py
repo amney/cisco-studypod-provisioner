@@ -1,6 +1,7 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from django.db import models
 # Create your models here.
+
 
 class DeviceType(models.Model):
     ROUTER = 'RT'
@@ -11,19 +12,20 @@ class DeviceType(models.Model):
         (ROUTER, 'Router'),
         (SWITCH, 'Switch'),
         (SERVER, 'Server'),
-        )
+    )
 
     type = models.CharField(max_length=3, null=False, blank=False, choices=DEVICE_TYPE_CHOICES, default=ROUTER)
-    model = models.CharField(max_length=25,null=False, blank=False, default=0, )
+    model = models.CharField(max_length=25, null=False, blank=False, default=0, )
     ram = models.IntegerField(null=True, blank=True, )
 
     class Meta:
         verbose_name = 'Device Type'
         verbose_name_plural = 'Device Types'
-        unique_together = ("type","model","ram")
+        unique_together = ("type", "model", "ram")
 
     def __unicode__(self):
         return self.model.__str__()
+
 
 class Connection(models.Model):
     ipv4 = models.IPAddressField()
@@ -37,8 +39,8 @@ class Connection(models.Model):
 
 
 class Location(models.Model):
-    row = models.CharField(max_length=1,null=False)
-    rack = models.IntegerField(max_length=2,null=False)
+    row = models.CharField(max_length=1, null=False)
+    rack = models.IntegerField(max_length=2, null=False)
 
     class Meta:
         unique_together = ("row", "rack")
@@ -54,6 +56,7 @@ class StudyType(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class Pod(models.Model):
     description = models.CharField(max_length=128, null=True)
     study_types = models.ManyToManyField(StudyType)
@@ -63,14 +66,14 @@ class Pod(models.Model):
 
 
 class Device(models.Model):
-    serial_number   = models.CharField(max_length=128, null=False, default="", blank=True)
-    telnet          = models.ForeignKey(Connection, related_name="device_telnet", null=True, blank=True, unique=True)
-    ssh             = models.ForeignKey(Connection, related_name="device_ssh", null=True, blank=True, unique=True)
-    serial          = models.ForeignKey(Connection, related_name="device_serial", null=True, blank=True, unique=True)
-    date_created    = models.DateTimeField(null=True, blank=True, auto_now_add=True)
-    location        = models.ForeignKey(Location,null=False)
-    devicetype      = models.ForeignKey(DeviceType, blank=True, null=True )
-    pod             = models.ForeignKey(Pod, blank=True, null=True)
+    serial_number = models.CharField(max_length=128, null=False, default="", blank=True)
+    telnet = models.ForeignKey(Connection, related_name="device_telnet", null=True, blank=True, unique=True)
+    ssh = models.ForeignKey(Connection, related_name="device_ssh", null=True, blank=True, unique=True)
+    serial = models.ForeignKey(Connection, related_name="device_serial", null=True, blank=True, unique=True)
+    date_created = models.DateTimeField(null=True, blank=True, auto_now_add=True)
+    location = models.ForeignKey(Location, null=False)
+    devicetype = models.ForeignKey(DeviceType, blank=True, null=True)
+    pod = models.ForeignKey(Pod, blank=True, null=True)
 
     def __unicode__(self):
         return self.devicetype.model.__str__() + " at " + self.location.__unicode__()
@@ -132,16 +135,17 @@ class Booking(models.Model):
         (time(00, 00), '00:00'),
     )
 
-    user        = models.CharField(null=False,blank=False, max_length=50)
-    pod         = models.ForeignKey(Pod, null=False, blank=False)
-    date        = models.DateField(null=False,blank=False, default=datetime.today())
-    start_time  = models.TimeField(null=False, blank=False, choices=TIME_CHOICES, default=time(00,00))
-    end_time    = models.TimeField(null=False, blank=False, choices=TIME_CHOICES, default=time(00, 00))
-    config_set  = models.ForeignKey(ConfigSet, null=False, blank=False)
+    user = models.CharField(null=False, blank=False, max_length=50)
+    pod = models.ForeignKey(Pod, null=False, blank=False)
+    start_datetime = models.DateTimeField(null=False, blank=False, default=datetime.now)
+    end_datetime = models.DateTimeField(null=False, blank=False, default=datetime.now)
+    config_set = models.ForeignKey(ConfigSet, null=False, blank=False)
 
     def __unicode__(self):
-        return self.user + " on pod " + self.pod.description + " between " + self.start_time.__str__() + " and " + self.end_time.__str__() + " on " + self.date.__str__()
+        return self.user + " on pod " + self.pod.description + " between " + \
+               self.start_datetime.__str__() + " and " + \
+               self.end_datetime.__str__()
 
     class Meta:
-        unique_together = ("pod","date","start_time","end_time")
+        unique_together = ("pod", "start_datetime", "end_datetime")
 
