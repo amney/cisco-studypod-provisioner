@@ -3,14 +3,16 @@
 import datetime
 import operator
 import logging
+import pytz
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import HttpResponse, render_to_response
+from django.contrib import messages
+from django.shortcuts import HttpResponse, render_to_response, redirect
 from django.template import RequestContext
 
-from forms import BookForm, ConfirmForm, ConfigSetForm
+from forms import BookForm, ConfirmForm, ConfigSetForm, AlternateConfigSetForm
 from models import Pod, Booking, ConfigSet, Config
-from cisco_middleware.config import get_config
+from cisco_middleware.config import get_config, configure_device_group
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -18,16 +20,15 @@ logger = logging.getLogger(__name__)
 
 def list_pods(request):
     pods = Pod.objects.all()
-    return render_to_response("list_pods.html", {'pods': pods}, context_instance=RequestContext(request))
+    return render_to_response("maintenance/list_pods.html", {'pods': pods}, context_instance=RequestContext(request))
 
 
 def list_bookings(request):
-    future_bookings = Booking.objects.filter(date__gte=datetime.today(),
-                                             start_time__gte=datetime.now())
+    future_bookings = Booking.objects.filter(start_datetime__gte=datetime.datetime.now(tz=pytz.utc))
 
-    past_bookings = Booking.objects.filter(date__lte=datetime.today(),
-                                           start_time__lte=datetime.now()).order_by('-date', '-start_time')
-    return render_to_response("list_bookings.html",
+    past_bookings = Booking.objects.filter(start_datetime__lte=datetime.datetime.now(tz=pytz.utc)).order_by('-start_datetime')
+
+    return render_to_response("maintenance/list_bookings.html",
                               {'future_bookings': future_bookings, 'past_bookings': past_bookings},
                               context_instance=RequestContext(request))
 
@@ -35,13 +36,23 @@ def list_bookings(request):
 @login_required
 def my_bookings(request):
     user = request.user
-    future_bookings = Booking.objects.filter(user=user.username, date__gte=datetime.today(),
-                                             start_time__gte=datetime.now())
-    past_bookings = Booking.objects.filter(user=user.username, date__lte=datetime.today(),
-                                           start_time__lte=datetime.now())
-    return render_to_response("list_bookings.html",
+    future_bookings = Booking.objects.filter(user=user.username, start_datetime__gte=datetime.datetime.now(tz=pytz.utc))
+    past_bookings = Booking.objects.filter(user=user.username, start_datetime__lte=datetime.datetime.now(tz=pytz.utc))
+    return render_to_response("maintenance/list_bookings.html",
                               {'future_bookings': future_bookings, 'past_bookings': past_bookings},
                               context_instance=RequestContext(request))
+
+
+@login_required
+def active_booking(request):
+    user = request.user
+    #active_booking = Booking.objects.filter(user=user.username, start_datetime__gte=datetime.datetime.now(tz=pytz.utc),
+    #                                        end_datetime__lte=datetime.datetime.now(tz=pytz.utc))[0]
+
+    active_booking = Booking.objects.get(pk=1)
+
+    return render_to_response("user/active_booking.html",
+                              {'booking': active_booking}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -78,7 +89,7 @@ def book(request):
 
                 pods = sorted(pods, key=operator.attrgetter('my_config_count'), reverse=True)
 
-                return render_to_response("pod_available.html", {'pods': pods},
+                return render_to_response("book/pod_available.html", {'pods': pods},
                                           context_instance=RequestContext(request))
 
             except Pod.DoesNotExist:
@@ -88,7 +99,7 @@ def book(request):
     else:
         form = BookForm()
 
-    return render_to_response("book.html", {'form': form}, context_instance=RequestContext(request))
+    return render_to_response("book/book.html", {'form': form}, context_instance=RequestContext(request))
 
 
 @login_required
@@ -105,18 +116,19 @@ def confirm_booking(request, pod_id):
         if form.is_valid():
             config_set = form.cleaned_data['config_set']
 
-            Booking.objects.create(user=request.user.username,
-                                   pod=Pod.objects.get(pk=pod_id),
-                                   start_datetime=start_datetime, end_datetime=end_datetime,
-                                   config_set=ConfigSet.objects.get(pk=config_set))
+            b = Booking.objects.create(user=request.user.username,
+                                       pod=Pod.objects.get(pk=pod_id),
+                                       start_datetime=start_datetime, end_datetime=end_datetime,
+                                       config_set=ConfigSet.objects.get(pk=config_set))
 
-            return HttpResponse("Booking successfully made! <a href=\"/\">Go Home</a>")
+            messages.add_message(request, messages.SUCCESS, 'Successfully Created Booking: {}'.format(b.__unicode__()))
+            return redirect('ajax_app.views.my_bookings')
         else:
             config_set_form = ConfirmForm(request.POST, pod_id=pod_id, username=request.user.username)
     else:
         config_set_form = ConfirmForm(pod_id=pod_id, username=request.user.username)
 
-    return render_to_response("confirm_booking.html",
+    return render_to_response("book/confirm_booking.html",
                               {'pod': pod, 'config_set_form': config_set_form, 't1': start_datetime, 't2': end_datetime},
                               context_instance=RequestContext(request))
 
@@ -138,4 +150,28 @@ def collect_config_set(request, pod_id):
     else:
         form = ConfigSetForm(instance=c)
 
-    return render_to_response("collect_config_set.html", {'form': form}, context_instance=RequestContext(request))
+    return render_to_response("config/collect_config_set.html", {'form': form}, context_instance=RequestContext(request))
+
+
+@login_required
+def alternate_config_set(request, pod_id):
+    pod = Pod.objects.get(pk=pod_id)
+    request.session['pod_id'] = pod_id
+
+    if request.method == 'POST':
+        pod_id = request.session['pod_id']
+        form = AlternateConfigSetForm(request.POST, pod_id=pod_id, username=request.user.username)
+        if form.is_valid():
+            config_set = form.cleaned_data['config_set']
+
+            configure_device_group(ConfigSet.objects.get(pk=config_set))
+            messages.add_message(request, messages.SUCCESS, 'Successfully reconfigured Pod')
+            return redirect('ajax_app.views.active_booking')
+        else:
+            config_set_form = AlternateConfigSetForm(request.POST, pod_id=pod_id, username=request.user.username)
+    else:
+        config_set_form = AlternateConfigSetForm(pod_id=pod_id, username=request.user.username)
+
+    return render_to_response("config/alternate_config_set.html",
+                              {'pod': pod, 'config_set_form': config_set_form},
+                              context_instance=RequestContext(request))

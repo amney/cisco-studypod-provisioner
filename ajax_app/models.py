@@ -146,6 +146,21 @@ class Booking(models.Model):
                self.start_datetime.__str__() + " and " + \
                self.end_datetime.__str__()
 
+    def get_length_delta(self):
+        return self.end_datetime - self.start_datetime
+
+    def get_length_delta_hours(self):
+        delta = self.get_length_delta()
+        return delta.seconds / (60*60)
+
+    def get_length_delta_minutes(self):
+        delta = self.get_length_delta()
+        return delta.seconds / 60
+
+    def get_length_delta_seconds(self):
+        delta = self.get_length_delta()
+        return delta.seconds
+
     class Meta:
         unique_together = ("pod", "start_datetime", "end_datetime")
 

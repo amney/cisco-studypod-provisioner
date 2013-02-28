@@ -83,6 +83,7 @@
                     <li><a href="{% url book %}">Make a Booking</a></li>
                     <li><a href="{% url get-config %}">Configuration Demos</a></li>
                     <li class="nav-header">My Profile</li>
+                    <li><a href="{% url active_booking %}">My Active Booking</a></li>
                     <li><a href="{% url my_bookings %}">My Bookings</a></li>
                     <li><a href="#">My Details</a></li>
                     <li class="nav-header">Administrative Tools</li>
@@ -95,6 +96,14 @@
             </div><!--/.well -->
         </div><!--/span-->
         <div class="span9">
+            {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-block alert-{{ message.tags }}">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+            {% endif %}
             {% block content %}
             {% endblock %}
         </div><!--/span-->

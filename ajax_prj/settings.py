@@ -6,6 +6,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+INTERNAL_IPS = ('127.0.0.1',)
+
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -94,6 +96,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -106,54 +109,25 @@ WSGI_APPLICATION = 'ajax_prj.wsgi.application'
 TEMPLATE_DIRS = ('/Users/tigarner/PycharmProjects/ajax_prj/templates',)
 
 INSTALLED_APPS = (
+    'django_admin_bootstrapped',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.humanize',
     'dajaxice',
     'dajax',
     'bootstrap_toolkit',
     'compressor',
-    # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
     'crispy_forms',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
     'ajax_app',
-    'south'
-
+    'south',
+    'debug_toolbar',
 )
 
-# A sample logging configuration. The only tangible logging
-# performed by this configuration is to send an email to
-# the site admins on every HTTP 500 error when DEBUG=False.
-# See http://docs.djangoproject.com/en/dev/topics/logging for
-# more details on how to customize your logging configuration.
-'''LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}'''
 
 LOGGING = {
     'version': 1,

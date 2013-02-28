@@ -56,7 +56,7 @@ class ConfirmForm(forms.Form):
         self.helper = FormHelper()
         self.helper.form_method = 'post'
         self.helper.form_action = ''
-        self.helper.add_input(Submit('submit', 'Book me up Scotty!'))
+        self.helper.add_input(Submit('submit', 'Confirm Booking', css_class='btn-success'))
         pod_id = kwargs.pop('pod_id', 0)
         username = kwargs.pop('username', 'tim')
         super(ConfirmForm, self).__init__(*args, **kwargs)
@@ -80,4 +80,19 @@ class ConfigSetForm(forms.ModelForm):
         model = ConfigSet
         exclude = ('blank', 'user', 'pod')
 
+
+class AlternateConfigSetForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_method = 'post'
+        self.helper.form_action = ''
+        self.helper.add_input(Submit('submit', 'Load Config'))
+        pod_id = kwargs.pop('pod_id', 0)
+        username = kwargs.pop('username', 'tim')
+        super(AlternateConfigSetForm, self).__init__(*args, **kwargs)
+        self.fields['config_set'].choices = Pod.objects.get(pk=pod_id).configset_set.filter(user=username).values_list(
+            'id', 'description')
+
+    config_set = forms.ChoiceField(
+        label='Select Configuration To Load', required=True)
 

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+
+{% block title %}
+    Active Bookings
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>Your Active Booking</h1>
+
+        <h3>All the information you need</h3>
+        <hr>
+        <p><strong>Time Left:</strong> {{ booking.get_length_delta_seconds }}</p>
+        <p><strong>Your Pod: </strong>{{ booking.pod.description }}</p>
+        <p><strong>Study Type: </strong>{{ booking.config_set.study_type }}</p>
+        <br>
+        <div>
+            <strong>Configuration: </strong>
+            {{ booking.config_set }}
+            <div class="btn-group">
+                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="icon-cog"></i>
+                    Configuration Actions
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{% url collect_config_set booking.pod_id %}">
+                        <i class="icon-hdd"></i>  Save Current Running Config</a>
+                    </li>
+                    <li><a href="{% url alternate_config_set booking.pod_id %}">
+                        <i class="icon-folder-open"></i>  Load Alternate Running Config</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <hr>
+        {% with booking.pod as pod %}
+            <p><strong>Devices:</strong></p>
+            <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>RAM (MB)</th>
+                    <th>Type</th>
+                    <th>Location</th>
+                    <th>Telnet IP : Port</th>
+                    <th>SSH IP : Port</th>
+                    <th>Console IP : Port</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for device in pod.device_set.all %}
+                    <tr>
+                        <td>{{ device.devicetype.model }}</td>
+                        <td>{{ device.devicetype.ram }}</td>
+                        <td>{{ device.devicetype.type }}</td>
+                        <td>{{ device.location }}</td>
+                        <td>{% if device.telnet %}<a href="telnet://{{ device.telnet }}">{{ device.telnet }}</a>{% endif %}</td>
+                        <td>{% if device.ssh %}<a href="ssh://{{ device.ssh}}">{{ device.ssh }}</a>{% endif %}</td>
+                        <td>{% if device.serial %}<a href="telnet://{{ device.serial }}">{{ device.serial }}</a>{% endif %}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        {% endwith %}
+    </div>
+{% endblock %}

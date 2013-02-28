@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+
+{% block title %}
+    Alternatve Config Set
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <h1>Looking to change things up?</h1>
+
+        <h3>Select the new config you want loaded.</h3>
+        <hr>
+        <div class="alert alert-danger">
+            <strong>Warning: </strong>Make sure you have <a href="{% url collect_config_set pod.id %}">saved</a>
+            the current config before you load a new one on. You will be logged off of the devices while they
+            are reconfigured.
+        </div>
+        <hr>
+
+        {% load crispy_forms_tags %}
+        {% crispy config_set_form %}
+    </div>
+{% endblock %}

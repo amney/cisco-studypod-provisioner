@@ -12,8 +12,8 @@ logger = logging.getLogger(__name__)
 
 #Start the scheduler
 #TODO: This is VERY hacky, fix up the scheduling
-sched = Scheduler()
-sched.start()
+#sched = Scheduler()
+#sched.start()
 logger.info("Starting configuration scheduled job")
 #sched.add_interval_job(configure_pods, minutes=1)
 #sched.add_interval_job(save_configurations, minutes=1)
@@ -23,26 +23,31 @@ logger.info("Starting configuration scheduled job")
 admin.autodiscover()
 dajaxice_autodiscover()
 
-
 urlpatterns = patterns('',
-    # Examples:
-    url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
+                       url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
+                       url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+                       url(r'^admin/', include(admin.site.urls)),
+                       )
+
+urlpatterns += patterns('ajax_app.views',
     url(r'^$',TemplateView.as_view(template_name="home.html"), name="home-view"),
     url(r'^about/$',TemplateView.as_view(template_name="about.html"), name="about"),
     url(r'^contact/$',TemplateView.as_view(template_name="contact.html"), name="contact"),
-    url(r'^config/$',TemplateView.as_view(template_name="get_config.html"), name="get-config"),
-    url(r'^book/$','ajax_app.views.book', name="book"),
-    url(r'^book/confirm_booking/(?P<pod_id>\d)/$', 'ajax_app.views.confirm_booking', name="confirm_booking"),
-    url(r'^config/save/(?P<pod_id>\d)/$', 'ajax_app.views.collect_config_set', name="collect_config_set"),
-    url(r'^maintenance/list_pods/$', 'ajax_app.views.list_pods', name="list_pods"),
-    url(r'^maintenance/list_bookings/$', 'ajax_app.views.list_bookings', name="list_bookings"),
-    url(r'^user/my_bookings/$', 'ajax_app.views.my_bookings', name="my_bookings"),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'admin/login.html'},name="login"),
-    url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name="logout"),
-    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+    url(r'^config/$',TemplateView.as_view(template_name="config/get_config.html"), name="get-config"),
+    url(r'^book/$','book', name="book"),
+    url(r'^book/confirm_booking/(?P<pod_id>\d)/$', 'confirm_booking', name="confirm_booking"),
+    url(r'^config/save/(?P<pod_id>\d)/$', 'collect_config_set', name="collect_config_set"),
+    url(r'^config/load/(?P<pod_id>\d)/$', 'alternate_config_set', name="alternate_config_set"),
+    url(r'^maintenance/list_pods/$', 'list_pods', name="list_pods"),
+    url(r'^maintenance/list_bookings/$', 'list_bookings', name="list_bookings"),
+    url(r'^user/my_bookings/$', 'my_bookings', name="my_bookings"),
+    url(r'^user/active_booking/$', 'active_booking', name="active_booking"),
+    )
 
-)
+urlpatterns += patterns('django.contrib.auth.views',
+                        url(r'^accounts/login/$', 'login', {'template_name': 'admin/login.html'}, name="login"),
+                        url(r'^accounts/logout/$', 'logout', name="logout"),
+                        )
 
 urlpatterns += staticfiles_urlpatterns()
 
