@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'ajax_app',
     'south',
     'debug_toolbar',
+    'tastypie'
 )
 
 

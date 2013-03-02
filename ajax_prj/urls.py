@@ -4,11 +4,24 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.views.generic import TemplateView
 from django.contrib import admin
 from django.conf import settings
+from tastypie.api import Api
+from ajax_app.api import BookingResource, PodResource, DeviceResource, DeviceTypeResource, ConnectionResource
 from ajax_app.jobs import configure_pods, save_configurations
 from apscheduler.scheduler import Scheduler
 import logging
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
+
+v1_api = Api(api_name='v1')
+
+v1_api.register(PodResource())
+v1_api.register(BookingResource())
+v1_api.register(DeviceResource())
+v1_api.register(DeviceTypeResource())
+v1_api.register(ConnectionResource())
+
+
+
 
 #Start the scheduler
 #TODO: This is VERY hacky, fix up the scheduling
@@ -27,6 +40,7 @@ urlpatterns = patterns('',
                        url(r'^favicon\.ico$', 'django.views.generic.simple.redirect_to', {'url': '/static/images/favicon.ico'}),
                        url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
                        url(r'^admin/', include(admin.site.urls)),
+                       url(r'^api/', include(v1_api.urls)),
                        )
 
 urlpatterns += patterns('ajax_app.views',

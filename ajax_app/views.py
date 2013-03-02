@@ -5,6 +5,7 @@ import operator
 import logging
 import pytz
 
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import HttpResponse, render_to_response, redirect
@@ -81,7 +82,7 @@ def book(request):
                 pods = Pod.objects.filter(study_types__id__exact=study_type).exclude(
                     booking__start_datetime__gte=start_datetime,
                     booking__end_datetime__lte=end_datetime,
-                )
+                ).prefetch_related('configset_set')
 
                 for pod in pods:
                     pod.my_configs = pod.configset_set.filter(user=request.user.username)
@@ -94,7 +95,6 @@ def book(request):
 
             except Pod.DoesNotExist:
                 return HttpResponse("Ouch, no pods available at that time")
-
 
     else:
         form = BookForm()
@@ -146,7 +146,8 @@ def collect_config_set(request, pod_id):
                 Config.objects.create(configuration=get_config(dev.telnet.ipv4), device=dev,
                                       config_set=config_set)
 
-            return HttpResponse("Config Set Saved!")
+            messages.success(request, 'Config Set Saved!')
+            return redirect(reverse('home-view'))
     else:
         form = ConfigSetForm(instance=c)
 
