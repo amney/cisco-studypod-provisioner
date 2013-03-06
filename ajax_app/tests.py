@@ -16,6 +16,21 @@ class SimpleTest(TestCase):
         self.assertEqual(1 + 1, 2)
 
 
-class NewTest(TestCase):
-    def test_basic_test(self):
+class BookTest(TestCase):
+    def test_creation(self):
+        self.assertEqual(1, 1)
+
+
+class SaveConfigTest(TestCase):
+    def test_creation(self):
+        self.assertEqual(1, 1)
+
+
+class LoadConfigTest(TestCase):
+    def test_creation(self):
+        self.assertEqual(1, 1)
+
+
+class APITest(TestCase):
+    def test_creation(self):
         self.assertEqual(1, 1)

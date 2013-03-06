@@ -1,6 +1,6 @@
 __author__ = 'tigarner'
 
-from tastypie.resources import ModelResource
+from tastypie.resources import ModelResource, ALL
 from tastypie import fields
 from ajax_app.models import Booking, Pod, ConfigSet, Device, DeviceType, Connection
 
@@ -15,6 +15,7 @@ class ConnectionResource(ModelResource):
     class Meta:
         queryset = Connection.objects.all()
         collection_name = 'connections'
+
 
 class DeviceResource(ModelResource):
     devicetype = fields.ForeignKey(DeviceTypeResource, 'devicetype', full=True)
@@ -36,7 +37,16 @@ class PodResource(ModelResource):
 class BookingResource(ModelResource):
     pod = fields.ForeignKey(PodResource, 'pod', full=True)
 
+    def dehydrate(self, bundle):
+        bundle.data['length'] = bundle.obj.get_length_delta_hours()
+        bundle.data['config'] = bundle.obj.config_set
+        bundle.data['study_type'] = bundle.obj.config_set.study_type
+        return bundle
+
     class Meta:
-        queryset = Booking.objects.all()
+        queryset = Booking.objects.all().order_by('start_datetime')
         collection_name = 'bookings'
+        filtering = {
+            'user': ALL,
+                    }
 

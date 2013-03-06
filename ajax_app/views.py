@@ -6,6 +6,7 @@ import logging
 import pytz
 
 from django.core.urlresolvers import reverse
+from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import HttpResponse, render_to_response, redirect
@@ -48,6 +49,7 @@ def my_bookings(request):
 def active_booking(request):
     user = request.user
     #active_booking = Booking.objects.filter(user=user.username, start_datetime__gte=datetime.datetime.now(tz=pytz.utc),
+
     #                                        end_datetime__lte=datetime.datetime.now(tz=pytz.utc))[0]
 
     active_booking = Booking.objects.get(pk=1)
@@ -74,6 +76,9 @@ def book(request):
             end_datetime = datetime.datetime.combine(form.cleaned_data.get('end_date'),
                                                      end_time.time())
 
+            gmt = pytz.timezone('Europe/London')
+            start_datetime = gmt.localize(start_datetime)
+            end_datetime = gmt.localize(end_datetime)
 
             request.session['start_datetime'] = start_datetime
             request.session['end_datetime'] = end_datetime
@@ -122,6 +127,12 @@ def confirm_booking(request, pod_id):
                                        config_set=ConfigSet.objects.get(pk=config_set))
 
             messages.add_message(request, messages.SUCCESS, 'Successfully Created Booking: {}'.format(b.__unicode__()))
+            send_mail('Booking Confirmation',
+                      'Hi {},\n\nI can confirm your booking: {}'.format(b.user,b.__unicode__()),
+                      'timgarner0@gmail.com',
+                      ['{}@example.com'.format(b.user)],
+                      fail_silently=False)
+
             return redirect('ajax_app.views.my_bookings')
         else:
             config_set_form = ConfirmForm(request.POST, pod_id=pod_id, username=request.user.username)
