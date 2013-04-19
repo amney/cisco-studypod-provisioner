@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Please Login
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <legend>Successfully Logged Out</legend>
+        <br>
+        <a class="btn-primary btn" type="submit" href="{% url login %}">Login again?</a>
+    </div>
+
+{% endblock %}

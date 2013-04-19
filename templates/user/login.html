@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Please Login
+{% endblock %}
+
+{% block content %}
+
+    <div class="well">
+        <legend>Sign in to Report Automation</legend>
+        {% csrf_token %}
+        <form method="post" action="{% url login %}">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert" href="#">x</a>Incorrect Username or Password!
+                </div>
+            {% endif %}
+            {{ form.username }}
+            {{ form.password }}
+            <br><br>
+            <input type="hidden" name="next" value="{{ next }}"/>
+            <button class="btn-primary btn" type="submit">Login</button>
+        </form>
+    </div>
+
+{% endblock %}

@@ -85,8 +85,8 @@ def book(request):
 
             try:
                 pods = Pod.objects.filter(study_types__id__exact=study_type).exclude(
-                    booking__start_datetime__gte=start_datetime,
-                    booking__end_datetime__lte=end_datetime,
+                    booking__start_datetime__gt=start_datetime,
+                    booking__end_datetime__lt=end_datetime
                 ).prefetch_related('configset_set')
 
                 for pod in pods:

@@ -5,7 +5,8 @@ from django.views.generic import TemplateView
 from django.contrib import admin
 from django.conf import settings
 from tastypie.api import Api
-from ajax_app.api import BookingResource, PodResource, DeviceResource, DeviceTypeResource, ConnectionResource
+from ajax_app.api import BookingResource, PodResource, DeviceResource, DeviceTypeResource, \
+    ConnectionResource, AvailabilityResource, ConfigSetResource
 from ajax_app.jobs import configure_pods, save_configurations
 from apscheduler.scheduler import Scheduler
 import logging
@@ -19,6 +20,8 @@ v1_api.register(BookingResource())
 v1_api.register(DeviceResource())
 v1_api.register(DeviceTypeResource())
 v1_api.register(ConnectionResource())
+v1_api.register(AvailabilityResource())
+v1_api.register(ConfigSetResource())
 
 
 
@@ -56,11 +59,12 @@ urlpatterns += patterns('ajax_app.views',
     url(r'^maintenance/list_bookings/$', 'list_bookings', name="list_bookings"),
     url(r'^user/my_bookings/$', 'my_bookings', name="my_bookings"),
     url(r'^user/active_booking/$', 'active_booking', name="active_booking"),
+    url(r'^user/profile/$', TemplateView.as_view(template_name="user/profile.html"), name="profile"),
     )
 
 urlpatterns += patterns('django.contrib.auth.views',
-                        url(r'^accounts/login/$', 'login', {'template_name': 'admin/login.html'}, name="login"),
-                        url(r'^accounts/logout/$', 'logout', name="logout"),
+                        url(r'^accounts/login/$', 'login', {'template_name': 'user/login.html'}, name="login"),
+                        url(r'^accounts/logout/$', 'logout', {'template_name': 'user/logout.html'}, name="logout"),
                         )
 
 urlpatterns += staticfiles_urlpatterns()

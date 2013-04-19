@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load gravatar %}
+
+{% block title %}
+    My Details
+{% endblock %}
+
+{% block content %}
+
+<div class="well">
+    <div style="width: 30%">
+    <h1>Hi, {{ user.username }}</h1>
+
+    <h3>Your personal details: </h3>
+    <p>
+    <strong>Profile Pic:</strong>
+    <a href="http://www.gravatar.com" target="_blank" id="gravatar"
+       title="Gravatar is a globally recognised avatar that works across millions of sites">
+        <img src="{% gravatar_for_email user.email 200 %}" class="thumbnail" />
+        (Visit gravatar.com set your profile picture)
+    </a>
+    </p>
+    <br>
+    <p>
+        <strong>First Name:</strong> {{ user.first_name }}<br>
+        <strong>Last Name: </strong> {{ user.last_name }}
+    </p>
+    <br>
+    <span class="badge badge-success">8 Bookings</span>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+$(function(){
+    $('#gravatar').tooltip({
+        placement: "left"
+    });
+});
+</script>
+{% endblock %}
