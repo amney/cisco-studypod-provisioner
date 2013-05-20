@@ -7,7 +7,7 @@ from pysnmp.entity.rfc3413.oneliner import cmdgen
 from pysnmp.proto import rfc1902
 from ajax_prj import settings
 
-tftp_server = '10.61.102.111'
+tftp_server = '10.10.10.20'
 
 def get_config(device_ip):
     """A good reference for tftp config is:
