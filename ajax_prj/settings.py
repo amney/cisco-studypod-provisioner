@@ -1,9 +1,14 @@
+import os
 import sys
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+PROJECT_PATH = os.path.abspath(os.path.dirname(__name__))
+
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+# ('Your Name', 'your_email@example.com'),
 )
 
 LOGIN_REDIRECT_URL = '/'
@@ -21,11 +26,11 @@ DEBUG_TOOLBAR_CONFIG = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/Users/tigarner/PycharmProjects/ajax_prj/db/ajax_app.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+        'NAME': os.path.join(SITE_ROOT, 'db') + 'ajax_app.db', # Or path to database file if using sqlite3.
+        'USER': '', # Not used with sqlite3.
+        'PASSWORD': '', # Not used with sqlite3.
+        'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '', # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -81,7 +86,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    ("/Users/tigarner/PycharmProjects/ajax_prj/static",)
+    os.path.join(SITE_ROOT, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -124,7 +129,7 @@ ROOT_URLCONF = 'ajax_prj.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'ajax_prj.wsgi.application'
 
-TEMPLATE_DIRS = ('/Users/tigarner/PycharmProjects/ajax_prj/templates',)
+TEMPLATE_DIRS = (os.path.join(SITE_ROOT, 'templates'),)
 
 INSTALLED_APPS = (
     'django_admin_bootstrapped',
@@ -149,7 +154,6 @@ INSTALLED_APPS = (
     'django_extensions'
 )
 
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
@@ -167,7 +171,7 @@ LOGGING = {
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': "/Users/tigarner/PycharmProjects/ajax_prj/logs/logfile.txt",
+            'filename': os.path.join(SITE_ROOT, 'logs') + 'logfile.txt',
             'maxBytes': 50000,
             'backupCount': 2,
             'formatter': 'standard',
@@ -176,7 +180,7 @@ LOGGING = {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
             'formatter': 'standard',
-            'stream' : sys.stdout
+            'stream': sys.stdout
         },
     },
     'loggers': {
