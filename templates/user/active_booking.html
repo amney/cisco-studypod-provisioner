@@ -13,7 +13,10 @@
 
         <h3>All the information you need</h3>
         <hr>
-        <p><strong>Time Left:</strong> {{ booking.get_length_delta_seconds }}</p>
+        {% if booking %}
+        <p><strong>Start Time:</strong> {{ booking.start_datetime|date:"d/m H:i:s"}}</p>
+        <p><strong>End Time:</strong> {{ booking.end_datetime|date:"d/m H:i:s" }}</p>
+        <p><strong>Time Left:</strong> {{ booking.end_datetime|timeuntil }}</p>
         <p><strong>Your Pod: </strong>{{ booking.pod.description }}</p>
         <p><strong>Study Type: </strong>{{ booking.config_set.study_type }}</p>
         <br>
@@ -67,5 +70,8 @@
             </tbody>
             </table>
         {% endwith %}
+        {% else %}
+        <p><strong>You do not currently have an active booking.</strong></p>
+        {% endif %}
     </div>
 {% endblock %}

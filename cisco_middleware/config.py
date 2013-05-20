@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 #Set the right snmp backend
-snmp_backend = test_snmp
+snmp_backend = snmp
 
 def configure_device(config):
     logger.info("Configuring device: " + \

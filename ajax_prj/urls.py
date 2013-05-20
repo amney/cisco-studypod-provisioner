@@ -13,8 +13,10 @@ import logging
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+# Register the API
 v1_api = Api(api_name='v1')
 
+# Hook up resources to the API
 v1_api.register(PodResource())
 v1_api.register(BookingResource())
 v1_api.register(DeviceResource())
@@ -23,19 +25,15 @@ v1_api.register(ConnectionResource())
 v1_api.register(AvailabilityResource())
 v1_api.register(ConfigSetResource())
 
-
-
-
-#Start the scheduler
-#TODO: This is VERY hacky, fix up the scheduling
-#sched = Scheduler()
-#sched.start()
+# Start the scheduler
+sched = Scheduler()
+sched.start()
 logger.info("Starting configuration scheduled job")
-#sched.add_interval_job(configure_pods, minutes=1)
-#sched.add_interval_job(save_configurations, minutes=1)
+sched.add_interval_job(configure_pods, minutes=5)
+sched.add_interval_job(save_configurations, minutes=5)
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
+
+# Autodiscover AJAX and Administrator URLs
 admin.autodiscover()
 dajaxice_autodiscover()
 
@@ -60,7 +58,7 @@ urlpatterns += patterns('ajax_app.views',
     url(r'^user/my_bookings/$', 'my_bookings', name="my_bookings"),
     url(r'^user/active_booking/$', 'active_booking', name="active_booking"),
     url(r'^user/profile/$', TemplateView.as_view(template_name="user/profile.html"), name="profile"),
-    )
+)
 
 urlpatterns += patterns('django.contrib.auth.views',
                         url(r'^accounts/login/$', 'login', {'template_name': 'user/login.html'}, name="login"),

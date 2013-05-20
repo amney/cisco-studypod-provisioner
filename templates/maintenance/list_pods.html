@@ -14,7 +14,14 @@
             {% for pod in pods %}
                 <li>
                 <strong>{{ pod.description }}</strong>
-                <br><br>
+                <br>
+                Devices
+                <ul>
+                    {% for device in pod.device_set.all %}
+                        <li>{{ device }}</li>
+                    {% endfor %}
+                </ul>
+                <br>
                 Available Study Options:
                 <ul>
                 {% for study_type in pod.study_types.all %}

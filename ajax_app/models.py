@@ -1,6 +1,7 @@
 from datetime import datetime, time, timedelta
 from django.db import models
 # Create your models here.
+import pytz
 
 
 class DeviceType(models.Model):
@@ -76,7 +77,8 @@ class Device(models.Model):
     pod = models.ForeignKey(Pod, blank=True, null=True)
 
     def __unicode__(self):
-        return self.devicetype.model.__str__() + " at " + self.location.__unicode__()
+        return self.devicetype.model.__str__() + " at " + self.location.__unicode__() + \
+            " (s/n " + self.serial_number + ")"
 
     class Meta:
         verbose_name = 'Device'
@@ -147,10 +149,10 @@ class Booking(models.Model):
                self.end_datetime.__str__()
 
     def get_length_delta(self):
-        return self.end_datetime - self.start_datetime
+        return self.end_datetime - datetime.now(tz=pytz.timezone('Europe/London'))
 
     def get_length_delta_hours(self):
-        delta = self.get_length_delta()
+        delta = self.end_datetime - self.start_datetime
         return delta.seconds / (60*60)
 
     def get_length_delta_minutes(self):

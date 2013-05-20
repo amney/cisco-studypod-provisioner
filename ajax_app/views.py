@@ -48,11 +48,14 @@ def my_bookings(request):
 @login_required
 def active_booking(request):
     user = request.user
-    #active_booking = Booking.objects.filter(user=user.username, start_datetime__gte=datetime.datetime.now(tz=pytz.utc),
-
-    #                                        end_datetime__lte=datetime.datetime.now(tz=pytz.utc))[0]
-
-    active_booking = Booking.objects.get(pk=1)
+    try:
+        active_booking = Booking.objects.filter(user=user.username,
+                                                start_datetime__lte=datetime.datetime.now(
+                                                    tz=pytz.timezone('Europe/London')),
+                                                end_datetime__gte=datetime.datetime.now(
+                                                    tz=pytz.timezone('Europe/London')))[0]
+    except IndexError:
+        active_booking = None
 
     return render_to_response("user/active_booking.html",
                               {'booking': active_booking}, context_instance=RequestContext(request))
@@ -85,8 +88,8 @@ def book(request):
 
             try:
                 pods = Pod.objects.filter(study_types__id__exact=study_type).exclude(
-                    booking__start_datetime__gt=start_datetime,
-                    booking__end_datetime__lt=end_datetime
+                    booking__start_datetime__gt=start_datetime - datetime.timedelta(hours=1),
+                    booking__end_datetime__lt=end_datetime - datetime.timedelta(hours=1)
                 ).prefetch_related('configset_set')
 
                 for pod in pods:
@@ -146,7 +149,7 @@ def confirm_booking(request, pod_id):
 
 @login_required
 def collect_config_set(request, pod_id):
-    c = ConfigSet(blank=False, user='Tim', pod=Pod.objects.get(pk=pod_id))
+    c = ConfigSet(blank=False, user='tim', pod=Pod.objects.get(pk=pod_id))
 
     if request.method == 'POST':
         form = ConfigSetForm(request.POST, instance=c)

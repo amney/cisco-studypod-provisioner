@@ -29,6 +29,11 @@ DATABASES = {
     }
 }
 
+# LDAP Authentication Parameters
+AUTH_LDAP_SERVER_URI = "ldap://ldap.cisco.com"
+AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=active,ou=employees,ou=people,o=cisco.com"
+AUTH_LDAP_USER_ATTR_MAP = {"first_name": "givenName", "last_name": "sn", "email": "mail"}
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -107,6 +112,11 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+AUTHENTICATION_BACKENDS = (
+    #'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 ROOT_URLCONF = 'ajax_prj.urls'

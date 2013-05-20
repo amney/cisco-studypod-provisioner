@@ -15,7 +15,7 @@
         <p>Upcoming bookings:</p>
         <ul>
             {% for booking in future_bookings %}
-                <li>{{ booking.start_datetime|naturaltime }} on {{ booking.pod.description }} for {{ booking.get_length_delta|apnumber}} hour{{ booking.get_length_delta|pluralize }}</li>
+                <li>{{ booking.start_datetime|naturaltime }} on {{ booking.pod.description }} {% comment %}for {{ booking.get_length_delta|apnumber}} hour{{ booking.get_length_delta|pluralize }}{% endcomment %}</li>
             {% empty %}
                 <p>It seems like you don't have any  future bookings, why not <a href="{% url book %}">make one?</a></p>
             {% endfor %}
@@ -24,7 +24,7 @@
         <p>Past bookings (for reference):</p>
         <ul>
             {% for booking in past_bookings %}
-                <li>{{ booking.start_datetime|naturaltime }} on {{ booking.pod.description }} for {{ booking.get_length_delta|apnumber}} hour{{ booking.get_length_delta|pluralize }}</li>
+                <li>{{ booking.start_datetime|naturaltime }} on {{ booking.pod.description }} {% comment %}for {{ booking.get_length_delta|apnumber}} hour{{ booking.get_length_delta|pluralize }}{% endcomment %}</li>
             {% empty %}
                 <p>It seems like you don't have any past bookings, why not <a href="{% url book %}">make one?</a></p>
             {% endfor %}

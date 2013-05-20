@@ -1,343 +1,155 @@
 
 !
-! Last configuration change at 11:49:41 London Sat Jan 26 2013 by admin
-! NVRAM config last updated at 11:49:41 London Sat Jan 26 2013 by admin
-! NVRAM config last updated at 11:49:41 London Sat Jan 26 2013 by admin
-version 15.1
+version 12.1
 no service pad
-service tcp-keepalives-in
-service tcp-keepalives-out
-service timestamps debug datetime msec localtime show-timezone
-service timestamps log datetime msec localtime show-timezone
+service timestamps debug uptime
+service timestamps log uptime
 no service password-encryption
-service sequence-numbers
 !
-hostname 1801
+hostname Switch
 !
-boot-start-marker
-boot-end-marker
+enable secret 5 $1$a161$pK0XRKowuOHIbOUJBOfPV.
+enable password cisco
 !
+ip subnet-zero
 !
-security authentication failure rate 3 log
-logging buffered 4096
-!
-aaa new-model
+ip ssh time-out 120
+ip ssh authentication-retries 3
 !
 !
-aaa authentication login default local-case
-aaa authentication login sdm_vpn_xauth_ml_1 local
-aaa authentication login CONSOLE_LOGIN local none
-aaa authentication login HTTP none
-aaa authorization exec default local none 
-aaa authorization exec HTTP_EXEC none 
-aaa authorization network sdm_vpn_group_ml_1 local 
+spanning-tree mode rapid-pvst
+no spanning-tree optimize bpdu transmission
+spanning-tree extend system-id
 !
 !
 !
 !
+interface FastEthernet0/1
+ switchport access vlan 562
+ switchport mode access
 !
-aaa session-id common
+interface FastEthernet0/2
 !
-clock timezone London 0 0
-crypto pki token default removal timeout 0
+interface FastEthernet0/3
 !
+interface FastEthernet0/4
 !
-dot11 syslog
-no ip source-route
+interface FastEthernet0/5
 !
+interface FastEthernet0/6
 !
-ip dhcp excluded-address 10.10.10.1 10.10.10.99
+interface FastEthernet0/7
 !
-ip dhcp pool HOSTS
- network 10.10.10.0 255.255.255.0
- dns-server 10.10.10.1 
- domain-name garners
- default-router 10.10.10.1 
- netbios-name-server 10.10.10.10 
- netbios-node-type h-node
- option 150 ip 10.10.10.1 
+interface FastEthernet0/8
 !
-ip dhcp pool WIFI
- host 10.10.10.70 255.255.255.0
- client-identifier 0100.2290.9172.fa
+interface FastEthernet0/9
 !
-ip dhcp pool PIPPIN
- host 10.10.10.5 255.255.255.0
- client-identifier 0100.9c02.9757.b7
+interface FastEthernet0/10
 !
-ip dhcp pool FREENAS-PIPPIN
- host 10.10.10.10 255.255.255.0
- client-identifier 0100.0c29.cd0e.39
+interface FastEthernet0/11
 !
-ip dhcp pool LUBUNTU-PIPPIN
- host 10.10.10.20 255.255.255.0
- hardware-address 000c.297e.25b5
+interface FastEthernet0/12
+ switchport access vlan 562
+ switchport mode access
 !
-ip dhcp pool PI
- host 10.10.10.60 255.255.255.0
- hardware-address b827.eb22.48ca
+interface FastEthernet0/13
 !
-ip dhcp pool PHONE
- host 10.10.10.80 255.255.255.0
- client-identifier 0100.08a3.b88f.9e
+interface FastEthernet0/14
 !
-ip dhcp pool NUC-HTPC
- host 10.10.10.50 255.255.255.0
- hardware-address eca8.6bf2.4da3
+interface FastEthernet0/15
 !
+interface FastEthernet0/16
 !
+interface FastEthernet0/17
 !
-ip cef
-no ip bootp server
-ip domain name garners
-ip host freenas.garners 10.10.10.10
-ip host transmission.garners 10.10.10.11
-ip host nuc-htpc.garners 10.10.10.50
-ip host lubuntu-pippin.garners 10.10.10.20
-ip host router.garners 10.10.10.1
-ip host pi.garners 10.10.10.60
-ip host pippin.garners 10.10.10.5
-ip name-server 194.73.82.242
-ip name-server 208.67.220.220
-ip name-server 4.2.2.5
-no ipv6 cef
+interface FastEthernet0/18
 !
-multilink bundle-name authenticated
+interface FastEthernet0/19
 !
+interface FastEthernet0/20
 !
+interface FastEthernet0/21
 !
-license udi pid CISCO1801WM-AGE/K9 sn FCZ12261029
-username admin privilege 15 secret 4 urYC9B83qMSzJgUNsQqudjgVni4zaZMQ5xbp1AbFNYQ
+interface FastEthernet0/22
 !
+interface FastEthernet0/23
 !
-ip tcp synwait-time 10
-! 
-crypto ctcp port 10000 
+interface FastEthernet0/24
 !
-crypto isakmp policy 1
- encr 3des
- authentication pre-share
- group 2
+interface FastEthernet0/25
 !
-crypto isakmp client configuration group users
- key T1990j1790.
- dns 10.10.10.1
- domain garners
- pool SDM_POOL_1
- acl 100
- split-dns garners
- netmask 255.255.255.0
-crypto isakmp profile sdm-ike-profile-1
-   match identity group users
-   client authentication list sdm_vpn_xauth_ml_1
-   isakmp authorization list sdm_vpn_group_ml_1
-   client configuration address respond
-   virtual-template 1
+interface FastEthernet0/26
 !
+interface FastEthernet0/27
 !
-crypto ipsec transform-set ESP-3DES-SHA esp-3des esp-sha-hmac 
+interface FastEthernet0/28
 !
-crypto ipsec profile SDM_Profile1
- set security-association idle-time 1800
- set transform-set ESP-3DES-SHA 
- set isakmp-profile sdm-ike-profile-1
+interface FastEthernet0/29
 !
+interface FastEthernet0/30
 !
+interface FastEthernet0/31
 !
+interface FastEthernet0/32
 !
+interface FastEthernet0/33
 !
+interface FastEthernet0/34
 !
-interface Null0
- no ip unreachables
+interface FastEthernet0/35
 !
-interface ATM0
- no ip address
- no ip redirects
- no ip unreachables
- no ip proxy-arp
- shutdown
- no atm ilmi-keepalive
+interface FastEthernet0/36
 !
-interface BRI0
- no ip address
- no ip redirects
- no ip unreachables
- no ip proxy-arp
- encapsulation hdlc
- shutdown
+interface FastEthernet0/37
 !
-interface Dot11Radio0
- no ip address
- no ip redirects
- no ip unreachables
- no ip proxy-arp
- shutdown
- speed basic-1.0 basic-2.0 basic-5.5 6.0 9.0 basic-11.0 12.0 18.0 24.0 36.0 48.0 54.0
- station-role root
+interface FastEthernet0/38
 !
-interface Dot11Radio1
- no ip address
- no ip redirects
- no ip unreachables
- no ip proxy-arp
- shutdown
- speed basic-6.0 9.0 basic-12.0 18.0 basic-24.0 36.0 48.0 54.0
- station-role root
+interface FastEthernet0/39
 !
-interface FastEthernet0
- description $FW_OUTSIDE$
- ip address 192.168.0.254 255.255.255.0
- ip access-group LOCAL_TRAFFIC_IN in
- ip access-group LOCAL_TRAFFIC_OUT out
- no ip redirects
- no ip unreachables
- no ip proxy-arp
- ip nat outside
- ip virtual-reassembly in
- ip verify unicast reverse-path
- duplex auto
- speed auto
+interface FastEthernet0/40
 !
-interface FastEthernet1
- no ip address
+interface FastEthernet0/41
 !
-interface FastEthernet2
- no ip address
- shutdown
+interface FastEthernet0/42
 !
-interface FastEthernet3
- no ip address
- shutdown
+interface FastEthernet0/43
 !
-interface FastEthernet4
- no ip address
- shutdown
+interface FastEthernet0/44
 !
-interface FastEthernet5
- no ip address
- shutdown
+interface FastEthernet0/45
 !
-interface FastEthernet6
- no ip address
- shutdown
+interface FastEthernet0/46
 !
-interface FastEthernet7
- no ip address
- shutdown
+interface FastEthernet0/47
 !
-interface FastEthernet8
- no ip address
- shutdown
+interface FastEthernet0/48
 !
-interface Virtual-Template1 type tunnel
- ip unnumbered FastEthernet0
- no ip redirects
- no ip unreachables
- no ip proxy-arp
- tunnel mode ipsec ipv4
- tunnel protection ipsec profile SDM_Profile1
+interface GigabitEthernet0/1
+!
+interface GigabitEthernet0/2
 !
 interface Vlan1
- description $FW_INSIDE$
- ip address 10.10.10.1 255.255.255.0
- no ip redirects
- no ip unreachables
- ip nat inside
- ip virtual-reassembly in
- no autostate
+ no ip address
+ no ip route-cache
+ shutdown
 !
-ip local pool SDM_POOL_1 10.10.10.90 10.10.10.99
-ip default-gateway 192.168.0.1
-ip forward-protocol nd
-no ip http server
-ip http access-class 2
-ip http authentication aaa login-authentication HTTP
-ip http authentication aaa exec-authorization HTTP_EXEC
-no ip http secure-server
-ip http path flash:/phone
+interface Vlan562
+ ip address 10.53.234.253 255.255.255.240
+ no ip route-cache
 !
-!
-ip dns server
-ip dns primary garners soa 10.10.10.1 mail@lubuntu-pippin.garners 21600 900 7776000 86400
-ip nat pool PORTFWD 10.10.10.80 10.10.10.80 netmask 255.255.255.0 type rotary
-ip nat inside source list 1 interface FastEthernet0 overload
-ip nat inside source static tcp 10.10.10.11 51413 interface FastEthernet0 51413
-ip nat inside source static tcp 10.10.10.11 9091 interface FastEthernet0 9091
-ip nat inside source static tcp 10.10.10.20 8080 interface FastEthernet0 8080
-ip nat inside source static tcp 10.10.10.20 8081 interface FastEthernet0 8081
-ip nat inside source static tcp 10.10.10.20 5050 interface FastEthernet0 5050
-ip nat inside source static tcp 10.10.10.20 443 interface FastEthernet0 433
-ip nat inside source static tcp 10.10.10.20 22 interface FastEthernet0 8001
-ip nat inside source static tcp 10.10.10.20 8000 interface FastEthernet0 8000
-ip nat inside source static tcp 10.10.10.254 23 interface FastEthernet0 8002
-ip nat inside source static udp 10.10.10.80 16384 interface FastEthernet0 16384
-ip nat inside source static tcp 10.10.10.80 5060 interface FastEthernet0 5060
-ip nat inside source static udp 10.10.10.80 5060 interface FastEthernet0 5060
-ip nat inside source static udp 10.10.10.11 51413 192.168.0.254 51413 extendable
-ip nat inside destination list PHONE_FWD pool PORTFWD
-ip route 0.0.0.0 0.0.0.0 192.168.0.1
-!
-ip access-list extended LOCAL_TRAFFIC_IN
- deny   tcp any any eq domain
- deny   tcp any any range 135 139
- deny   tcp any any eq bgp
- deny   tcp any any eq 445
- deny   tcp any any eq 10000
- permit ip any host 192.168.0.254
-ip access-list extended LOCAL_TRAFFIC_OUT
- permit ip any host 192.168.0.1
- deny   ip any 192.168.0.0 0.0.0.255
- permit ip any any
-ip access-list extended PHONE_FWD
- permit udp any any range 16384 20134
-ip access-list extended SSH_IN
- permit ip 10.10.10.0 0.0.0.255 any
-!
-access-list 1 remark SDM_ACL Category=2
-access-list 1 permit 10.10.10.0 0.0.0.255
-access-list 2 permit 10.10.10.0 0.0.0.255
-access-list 100 remark SDM_ACL Category=4
-access-list 100 permit ip 10.10.10.0 0.0.0.255 any
-!
-!
-!
-!
+ip http server
 snmp-server community community RW
 snmp-server system-shutdown
 !
-tftp-server flash 1
-tftp-server flash:phone
-tftp-server flash:SIPDefault.cnf
-tftp-server flash:/phone/SIPDefault.cnf
-tftp-server flash:/phone/*
-tftp-server flash:/phone
-tftp-server flash:/phone/directory.xml
-tftp-server flash:/phone/P003-8-12-00.bin
-tftp-server flash:/phone/P003-8-12-00.sbn
-tftp-server flash:/phone/P003-8-12-00.sb2
-tftp-server flash:/phone/P0S3-8-12-00.sb2
-tftp-server flash:/phone/P0S3-8-12-00.loads
-tftp-server flash:/phone/SIP0008A3B88F9E.cnf
-tftp-server flash:/phone/OS79XX.TXT
-!
-!
-!
-control-plane
-!
-!
-!
 line con 0
- logging synchronous
- login authentication CONSOLE_LOGIN
-line aux 0
 line vty 0 4
- session-timeout 35791 
- access-class SSH_IN in
- logging synchronous
- transport input telnet ssh
+ password cisco
+ no login
+line vty 5
+ password cisco
+ login
+line vty 6 15
+ login
 !
-scheduler allocate 4000 1000
-scheduler interval 500
-ntp master
-ntp server 0.europe.pool.ntp.org prefer
+!
 end
