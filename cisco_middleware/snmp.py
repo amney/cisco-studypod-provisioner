@@ -1,8 +1,11 @@
+import os
+
 __author__ = 'tim'
 import socket
 from time import sleep
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 from pysnmp.proto import rfc1902
+from ajax_prj import settings
 
 tftp_server = '10.61.102.111'
 
@@ -31,7 +34,7 @@ def get_config(device_ip):
     set_snmp('9.9.96.1.1.1.1.14.111', 6, device_ip)
 
     #Open the downloaded config and read into a string
-    linestring = open('/Users/tigarner/PycharmProjects/ajax_prj/tftp/receive.txt', 'r').read()
+    linestring = open(os.path.join(settings.PROJECT_PATH, 'tftp') + '/receive.txt', 'r').read()
     return linestring
 
 def set_config(device_ip, config):
@@ -39,7 +42,7 @@ def set_config(device_ip, config):
     http://ccie20728.wordpress.com/2008/05/20/get-the-cisco-configuration-over-snmp/"""
 
     #Get the config into the text file
-    with open('/Users/tigarner/PycharmProjects/ajax_prj/tftp//send.txt', 'w') as file:
+    with open(os.path.join(settings.PROJECT_PATH, 'tftp') + '/send.txt', 'w') as file:
         file.write(config)
 
 
