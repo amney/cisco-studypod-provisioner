@@ -26,7 +26,7 @@ DEBUG_TOOLBAR_CONFIG = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(SITE_ROOT, 'db') + 'ajax_app.db', # Or path to database file if using sqlite3.
+        'NAME': os.path.join(PROJECT_PATH, 'db') + '/ajax_app.db', # Or path to database file if using sqlite3.
         'USER': '', # Not used with sqlite3.
         'PASSWORD': '', # Not used with sqlite3.
         'HOST': '', # Set to empty string for localhost. Not used with sqlite3.
@@ -86,7 +86,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(SITE_ROOT, 'static'),
+    os.path.join(PROJECT_PATH, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -129,7 +129,7 @@ ROOT_URLCONF = 'ajax_prj.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'ajax_prj.wsgi.application'
 
-TEMPLATE_DIRS = (os.path.join(SITE_ROOT, 'templates'),)
+TEMPLATE_DIRS = (os.path.join(PROJECT_PATH, 'templates'),)
 
 INSTALLED_APPS = (
     'django_admin_bootstrapped',
@@ -171,7 +171,7 @@ LOGGING = {
         'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(SITE_ROOT, 'logs') + 'logfile.txt',
+            'filename': os.path.join(PROJECT_PATH, 'logs') + '/logfile.txt',
             'maxBytes': 50000,
             'backupCount': 2,
             'formatter': 'standard',
