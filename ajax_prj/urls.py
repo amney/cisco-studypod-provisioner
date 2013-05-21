@@ -1,3 +1,4 @@
+from django_logtail import urls as logtail_urls
 from django.conf.urls import patterns, include, url
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
@@ -29,12 +30,11 @@ v1_api.register(ConfigSetResource())
 sched = Scheduler()
 sched.start()
 logger.info("Starting configuration scheduled job")
-sched.add_interval_job(configure_pods, minutes=5)
+sched.add_interval_job(configure_pods, minutes=7)
 sched.add_interval_job(save_configurations, minutes=5)
 
 
 # Autodiscover AJAX and Administrator URLs
-admin.autodiscover()
 dajaxice_autodiscover()
 
 urlpatterns = patterns('',
@@ -45,6 +45,7 @@ urlpatterns = patterns('',
                        )
 
 urlpatterns += patterns('ajax_app.views',
+    url(r'^admin/django_logtail/', include(logtail_urls)),
     url(r'^$',TemplateView.as_view(template_name="home.html"), name="home-view"),
     url(r'^about/$',TemplateView.as_view(template_name="about.html"), name="about"),
     url(r'^contact/$',TemplateView.as_view(template_name="contact.html"), name="contact"),
@@ -71,3 +72,5 @@ if settings.DEBUG is False:   #if DEBUG is True it will be served automatically
     urlpatterns += patterns('',
         url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
     )
+
+admin.autodiscover()

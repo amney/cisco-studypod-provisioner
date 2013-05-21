@@ -23,6 +23,10 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False
 }
 
+LOGTAIL_FILES = {
+     'django': os.path.join(PROJECT_PATH, 'logs') + '/logfile.txt',
+}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -151,7 +155,8 @@ INSTALLED_APPS = (
     'debug_toolbar',
     'tastypie',
     'gravatar',
-    'django_extensions'
+    'django_extensions',
+    'django_logtail'
 )
 
 LOGGING = {

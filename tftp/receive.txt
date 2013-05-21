@@ -6,18 +6,13 @@ service timestamps debug uptime
 service timestamps log uptime
 no service password-encryption
 !
-hostname Switch
+hostname Tim_2950
 !
-enable secret 5 $1$a161$pK0XRKowuOHIbOUJBOfPV.
-enable password cisco
 !
 ip subnet-zero
 !
-ip ssh time-out 120
-ip ssh authentication-retries 3
 !
-!
-spanning-tree mode rapid-pvst
+spanning-tree mode pvst
 no spanning-tree optimize bpdu transmission
 spanning-tree extend system-id
 !
@@ -25,8 +20,6 @@ spanning-tree extend system-id
 !
 !
 interface FastEthernet0/1
- switchport access vlan 562
- switchport mode access
 !
 interface FastEthernet0/2
 !
@@ -49,8 +42,6 @@ interface FastEthernet0/10
 interface FastEthernet0/11
 !
 interface FastEthernet0/12
- switchport access vlan 562
- switchport mode access
 !
 interface FastEthernet0/13
 !
@@ -129,12 +120,7 @@ interface GigabitEthernet0/1
 interface GigabitEthernet0/2
 !
 interface Vlan1
- no ip address
- no ip route-cache
- shutdown
-!
-interface Vlan562
- ip address 10.53.234.253 255.255.255.240
+ ip address 10.10.10.254 255.255.255.0
  no ip route-cache
 !
 ip http server
@@ -143,12 +129,9 @@ snmp-server system-shutdown
 !
 line con 0
 line vty 0 4
- password cisco
+ privilege level 15
  no login
-line vty 5
- password cisco
- login
-line vty 6 15
+line vty 5 15
  login
 !
 !
